@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: "Poppins", sans-serif;
+  @apply text-white bg-gray-900;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Poppins"), url(/fonts/Poppins-Regular.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  src: local("Poppins"), url(/fonts/Poppins-Medium.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Poppins"), url(/fonts/Poppins-SemiBold.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Poppins"), url(/fonts/Poppins-Bold.woff2) format("woff2");
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  @apply bg-gray-900;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  @apply bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgb(128, 126, 126);
+}
