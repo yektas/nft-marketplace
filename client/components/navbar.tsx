@@ -9,6 +9,7 @@ interface Props {}
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Create NFT", href: "/createItem" },
+  { name: "My NFTs", href: "/myNFTs" },
 ];
 
 export const Navbar = (props: Props) => {
@@ -27,7 +28,7 @@ export const Navbar = (props: Props) => {
   return (
     <Disclosure
       as="nav"
-      className={clsx(" z-50 w-full transition-all ease-in-out duration-200", {
+      className={clsx("fixed z-50 w-full transition-all ease-in-out duration-200", {
         "bg-gray-800 shadow-xl": scrolled,
       })}
     >

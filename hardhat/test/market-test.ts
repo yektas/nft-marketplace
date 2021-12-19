@@ -18,9 +18,9 @@ describe("Marketplace", function () {
 
     const price = ethers.utils.parseUnits("1", "ether");
 
-    const nft1 = await nft.createBoredHera("QmfYpPex3TMPdiHtyme7nuXH7RRgaza14ofuQJBzALgX1S"); // Hera Wink
+    const nft1 = await nft.createBoredHera("QmR9iasTahv1HZRP4DsZySxn1m3qzvBKXsGhkKyWcfFuHV"); // Hera Wink
     await nft1.wait();
-    const nft2 = await nft.createBoredHera("QmNsRGx867xX9hPze2MhUjyb3jQp21LCatfpa6ax4C3zXR"); // Hera Explore
+    const nft2 = await nft.createBoredHera("QmYqb3cCkRQazJPqp29BoQGVP118ikA7e1hEsWSB4pZmnk"); // Hera Explore
     await nft2.wait();
 
     await market.createMarketItem(nftAddress, 1, price, { value: listingCommision });

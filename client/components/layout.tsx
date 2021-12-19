@@ -8,7 +8,7 @@ const Layout = (props: React.PropsWithChildren<Props>) => {
   return (
     <div className="flex flex-col justify-between h-screen">
       <Navbar />
-      <div className="container px-4 py-16 mx-auto mb-auto sm:px-8 lg:px-16 xl:px-20">
+      <div className="container px-4 py-24 mx-auto mb-auto sm:px-8 lg:px-16 xl:px-20">
         {props.children}
       </div>
       <Footer />

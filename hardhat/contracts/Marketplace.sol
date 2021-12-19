@@ -121,35 +121,59 @@ contract Marketplace is ReentrancyGuard {
     //Return NFTs of caller
     function getMyNFTs() public view returns (MarketItem[] memory) {
         uint256 totalItemCount = _itemIds.current();
-
-        MarketItem[] memory nfts;
-
+        uint256 itemCount = 0;
         uint256 index = 0;
+
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (marketItems[i + 1].owner == msg.sender) {
-                nfts[index] = marketItems[marketItems[i + 1].itemId];
-                index += 1;
+                itemCount += 1;
             }
         }
 
+        MarketItem[] memory nfts = new MarketItem[](itemCount);
+        for (uint256 i = 0; i < totalItemCount; i++) {
+            if (marketItems[i + 1].owner == msg.sender) {
+                uint256 currentId = i + 1;
+                nfts[index] = marketItems[currentId];
+                index += 1;
+            }
+        }
         return nfts;
     }
 
     //Return the items created by a specific user
-    function getUserNFTs() public view returns (MarketItem[] memory) {
+    function getNFTsCreated() public view returns (MarketItem[] memory) {
         uint256 totalItemCount = _itemIds.current();
-
-        MarketItem[] memory nfts;
-
+        uint256 itemCount = 0;
         uint256 index = 0;
+
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (marketItems[i + 1].seller == msg.sender) {
-                nfts[index] = marketItems[marketItems[i + 1].itemId];
-                index += 1;
+                itemCount += 1;
             }
         }
 
+        MarketItem[] memory nfts = new MarketItem[](itemCount);
+        for (uint256 i = 0; i < totalItemCount; i++) {
+            if (marketItems[i + 1].seller == msg.sender) {
+                uint256 currentId = i + 1;
+                nfts[index] = marketItems[currentId];
+                index += 1;
+            }
+        }
         return nfts;
+    }
+
+    //Return nft by itemId
+    function getNFT(uint256 itemId) public view returns (MarketItem memory) {
+        uint256 totalItemCount = _itemIds.current();
+        MarketItem memory item;
+        for (uint256 i = 0; i < totalItemCount; i++) {
+            if (marketItems[i + 1].itemId == itemId) {
+                item = marketItems[i + 1];
+            }
+        }
+        return item;
     }
 
     //Structs
