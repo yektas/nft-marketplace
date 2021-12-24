@@ -8,7 +8,7 @@ interface Props {}
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Create NFT", href: "/createItem" },
+
   { name: "My NFTs", href: "/myNFTs" },
 ];
 
@@ -28,7 +28,7 @@ export const Navbar = (props: Props) => {
   return (
     <Disclosure
       as="nav"
-      className={clsx("fixed z-50 w-full transition-all ease-in-out duration-200", {
+      className={clsx("fixed z-40 w-full transition-all ease-in-out duration-200 py-4", {
         "bg-gray-800 shadow-xl": scrolled,
       })}
     >
@@ -64,7 +64,7 @@ export const Navbar = (props: Props) => {
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <Link key={item.name} href={item.href}>
-                        <div className="px-3 py-2 text-sm font-medium border-b-2 border-transparent cursor-pointer">
+                        <div className="px-3 py-2 font-medium border-b-2 border-transparent cursor-pointer">
                           {item.name}
                         </div>
                       </Link>
@@ -72,8 +72,11 @@ export const Navbar = (props: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 items-center hidden pr-2 sm:flex sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button>TEST</button>
+              <div className="absolute inset-y-0 right-0 items-center hidden pr-2 space-x-6 font-semibold sm:flex sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <div>Create NFT</div>
+                <button className="px-4 py-2 font-semibold text-pink-600 border-2 border-pink-600 rounded-full shadow-lg shadow-pink-600/10">
+                  Connect Wallet
+                </button>
               </div>
             </div>
           </div>

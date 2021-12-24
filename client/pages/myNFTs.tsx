@@ -1,23 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Web3Modal from "web3modal";
-
-import { create } from "ipfs-http-client";
-
 import { useSpinner } from "../components/common/SpinnerContext";
-
-import { Loader } from "../components/common/Loader";
 import { ethers } from "ethers";
-import { getMarketContract, getTokenContract } from "./api/blockchainService";
-import { useRouter } from "next/router";
-import { MarketItemStructOutput } from "../../hardhat/typechain-types/Marketplace";
-import { convertMarketItemStruct2MarketItem, convertMarketItemStructs2MarketItems } from "../utils";
+import { getMarketContract } from "./api/blockchainService";
+import { convertMarketItemStructs2MarketItems } from "../utils";
 import NFTCard from "../components/NFTCard";
 import { MarketItem } from ".";
-import useSWR from "swr";
+import NFTCard2 from "../components/NFTCard";
 
 interface Props {}
-
-//const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
 
 function MyNFTs(props: Props) {
   const { showSpinner, hideSpinner } = useSpinner();

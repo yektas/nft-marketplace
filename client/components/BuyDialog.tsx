@@ -1,5 +1,6 @@
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import Button from "./common/Button";
 
 interface Props {
   open: boolean;
@@ -9,7 +10,7 @@ interface Props {
   onBuy: () => void;
 }
 
-export const BuyDialog = ({ open, onClose, currentBalance, onBuy }: Props) => {
+export const BuyDialog = ({ open, onClose, currentBalance, price, onBuy }: Props) => {
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="fixed inset-0 z-10 overflow-y-aut" onClose={onClose}>
@@ -35,29 +36,28 @@ export const BuyDialog = ({ open, onClose, currentBalance, onBuy }: Props) => {
               </Dialog.Title>
               <div className="mt-4">
                 <p className="text-gray-500 text-md">
-                  You must bid at least <span className="font-semibold text-white">2 ETH</span>
+                  Price{" "}
+                  <span className="float-right font-semibold text-white font-inter">
+                    {price} ETH
+                  </span>
                 </p>
               </div>
               <div className="mt-4">
                 <p className="text-gray-500 text-md">
                   Your balance
-                  <span className="float-right font-semibold text-white">{currentBalance} ETH</span>
+                  <span className="float-right font-semibold text-white font-inter">
+                    {currentBalance} ETH
+                  </span>
                 </p>
               </div>
               <div className="mt-4">
                 <p className="text-gray-500 text-md">
                   Total bid amount
-                  <span className="float-right font-semibold text-white">5 ETH</span>
+                  <span className="float-right font-semibold text-white font-inter">5 ETH</span>
                 </p>
               </div>
               <div className="flex justify-center mt-8">
-                <button
-                  type="button"
-                  className="w-full rounded-full text-md btn btn-primary"
-                  onClick={() => onBuy()}
-                >
-                  Buy
-                </button>
+                <Button onClick={() => onBuy()}>Buy</Button>
               </div>
             </div>
           </Transition.Child>

@@ -13,6 +13,8 @@ import axios from "axios";
 import { getMarketContract, getTokenContract } from "../api/blockchainService";
 import { getEllipsisTxt } from "../../utils";
 import Web3Modal from "web3modal";
+import Button from "../../components/common/Button";
+import { BuyDialog } from "../../components/BuyDialog";
 
 type Props = {};
 
@@ -91,61 +93,37 @@ const ItemDetail = ({}: Props) => {
     hideSpinner();
   }
 
-  /*   async function placeBid(bidAmount: string) {
-    showSpinner();
-
-    if (bidAmount <= product!.price) {
-      hideSpinner();
-      alert("Bid amount must be greater than min bid amount");
-      return;
-    }
-
-    contract!.methods
-      .bid(product!.id)
-      .send({
-        from: wallet.account,
-        value: Web3.utils.toWei(bidAmount, "ether"),
-      })
-      .then((res: any) => {
-        if (res) {
-          setOpen(!res.status);
-          hideSpinner();
-        }
-      })
-      .catch(() => {
-        hideSpinner();
-      });
-  } */
-
   function renderNFT(nft: MarketItem) {
     return (
-      <div className="text-white bg-gray-900 ">
-        <div className="grid grid-cols-3 divide-x-2 divide-gray-800">
-          <div className="col-span-2 py-4 place-self-center">
-            <figure className="px-4 place-self-center ">
+      <div className="text-white mt-28">
+        <div className="grid grid-cols-3 py-4">
+          <div className="col-span-2 place-self-center">
+            <figure className="flex justify-center px-4 ">
               <img
                 src={nft.image}
-                className="object-cover w-full h-full max-w-xl place-self-center"
+                className="object-cover w-2/3 rounded-lg shadow-lg aspect-square"
               />
             </figure>
           </div>
 
-          <div className="h-full pt-4 ">
+          <div className="h-full ">
             <div className="flex flex-col h-full ml-4">
-              <h1 className="text-4xl">{nft.name}</h1>
-              <p className="mt-10 leading-loose">{nft.description}</p>
+              <h1 className="text-4xl font-semibold">{nft.name}</h1>
+              <p className="mt-10 text-lg font-semibold leading-loose text-gray-400">
+                {nft.description}
+              </p>
 
               <div className="flex-1"></div>
               <div className="grid grid-cols-2">
                 <div className="flex flex-col">
-                  <p className="font-medium text-gray-500 text-md">Seller</p>
-                  <p className="text-lg font-semibold text-white">
+                  <label className="font-bold text-gray-500 text-md">Seller</label>
+                  <p className="text-xl font-semibold ">
                     {getEllipsisTxt("0x00000000000000000000")}
                   </p>
                 </div>
                 <div className="flex flex-col">
-                  <p className="font-medium text-gray-500 text-md ">Collection</p>
-                  <p className="text-lg font-semibold text-white">BoredHeraClub</p>
+                  <label className="font-bold text-gray-500 text-md">Collection</label>
+                  <p className="text-xl font-semibold ">BoredHeraClub</p>
                 </div>
               </div>
 
@@ -166,26 +144,20 @@ const ItemDetail = ({}: Props) => {
               </div> */}
 
               <div className="flex flex-col mt-2">
-                <label className="font-medium text-gray-500 text-md">Price</label>
-                <p className="text-lg font-semibold text-white">{nft.price} ETH</p>
+                <label className="font-bold text-gray-500 text-md">Price</label>
+                <p className="text-xl font-bold text-white font-inter">{nft.price} ETH</p>
               </div>
-              <div className="flex justify-around pb-12">
-                <button
-                  className="block w-1/2 py-2 font-medium rounded-full bg-primary text-md"
-                  onClick={() => onBuy()}
-                >
-                  {nft.isSold ? "Sold" : "Buy Now"}
-                </button>
-              </div>
+              <div className="flex-1"></div>
+              <Button onClick={() => setOpen(true)}>{nft.isSold ? "Sold" : "Buy Now"}</Button>
             </div>
 
-            {/* <BuyDialog
+            <BuyDialog
               open={open}
               onClose={() => setOpen(false)}
-              minBidAmount={minBidAmount}
+              price={nft.price}
               currentBalance={balance}
-              onSubmit={(bidAmount) => placeBid(bidAmount)}
-            /> */}
+              onBuy={() => onBuy()}
+            />
           </div>
         </div>
       </div>

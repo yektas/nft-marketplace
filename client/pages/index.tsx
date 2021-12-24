@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Lottie from "react-lottie";
 import * as animationData from "../animations/wings.json";
 import axios from "axios";
@@ -56,20 +56,32 @@ const Home: NextPage = () => {
     );
     setNFTs(items);
   }
+
+  const nftsRef = useRef(null);
+
+  const executeScroll = () => nftsRef && nftsRef.current && nftsRef.current.scrollIntoView();
+
   return (
     <>
-      <div className="grid items-center grid-cols-1 gap-8 hero-wrapper md:grid-cols-12">
-        <div className="col-span-6 hero-text">
-          <h1 className="max-w-xl text-4xl font-medium leading-tight text-white md:text-5xl">
+      <div className="grid items-center h-screen grid-cols-1 gap-8 md:grid-cols-12">
+        <div className="col-span-6 ">
+          <h1 className="max-w-xl text-4xl font-semibold leading-tight text-white md:text-5xl">
             Best NFTs are here!
           </h1>
 
-          <hr className="w-1/4 h-1 mt-8 bg-orange-500 border-orange-500 rounded-full " />
-          <p className="mt-8 text-base font-medium leading-relaxed text-gray-200 ">
+          <h4 className="mt-8 text-lg font-medium leading-relaxed text-gray-200 ">
             You can find your favorite NFTs with good prices
-          </p>
-          <div className="flex justify-center mt-10 space-x-5 get-app md:justify-start">
-            <button className="w-1/5 py-2 rounded-md bg-primary text-md">Shop Now</button>
+          </h4>
+          <div className="flex items-center py-8">
+            <div className="relative">
+              <div className="absolute transition duration-1000 rounded-lg opacity-70 -inset-0.5 bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 blur group-hover:opacity-100 group-hover:duration-200 animate-tilt"></div>
+              <button
+                onClick={executeScroll}
+                className="relative flex items-center py-4 leading-none rounded-lg bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 px-7"
+              >
+                <span className="font-medium text-white transition duration-200">Explore Now</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -78,17 +90,18 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="container mx-auto mt-4 space-y-10">
-        <h1 className="text-3xl prose-2xl text-white">NTFs</h1>
-        <div className="pb-2 bg-gray-900 border-t-2 border-gray-700"></div>
-        <div className="grid grid-cols-3 gap-10 ">
+      <section ref={nftsRef} className="container mx-auto mt-2 space-y-10 scroll-mt-28">
+        <h1 className="text-4xl font-semibold text-center ">
+          Latest <span className="text-primary">NTFs</span>
+        </h1>
+        <div className="grid grid-cols-3 gap-10 py-8">
           {NFTs && NFTs.length > 0 ? (
             NFTs.map((nft: MarketItem) => <NFTCard nft={nft} />)
           ) : (
             <div>No NFTs in marketplace</div>
           )}
         </div>
-      </div>
+      </section>
     </>
   );
 };

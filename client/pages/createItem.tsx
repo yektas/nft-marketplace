@@ -55,7 +55,6 @@ function CreateItem(props: Props) {
     let imageCID = null;
     try {
       const added = await client.add(imageFile!);
-      console.log(added);
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
       setPreview(url);
       imageCID = added.path;
@@ -241,7 +240,8 @@ function CreateItem(props: Props) {
               onChange={handleChange}
               value={inputs.price}
               className="block w-full h-10 pr-16 bg-gray-800 border-none rounded-lg focus:ring-orange-500 sm:text-sm"
-              placeholder="0.00"
+              placeholder="0.5"
+              step=".1"
             />
             <div className="absolute inset-y-0 right-0 flex items-center h-10 mt-6">
               <div className="absolute inset-y-0 right-0 flex items-center px-4 ml-3 font-medium rounded-r-lg pointer-events-none bg-primary">

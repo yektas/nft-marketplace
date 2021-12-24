@@ -5,7 +5,9 @@ module.exports = {
   content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      sans: ['"Poppins"', "sans-serif"],
+      sans: ['"Epilogue"', "sans-serif"],
+      poppins: ['"Poppins"', "sans-serif"],
+      inter: ['"Inter-Roman"', "sans-serif"],
     },
     extend: {
       colors: {
@@ -20,7 +22,11 @@ module.exports = {
         lime: colors.lime,
         orange: colors.orange,
         cyan: colors.cyan,
-        primary: "#793ef9",
+        primary: colors.pink[600],
+        background: "#181A22",
+      },
+      boxShadow: {
+        homogen: "0 0 10px 3px rgba(0,0,0,0.5)",
       },
     },
   },
