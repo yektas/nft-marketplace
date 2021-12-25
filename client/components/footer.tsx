@@ -31,7 +31,7 @@ export const Footer = (props: Props) => {
             target="_blank"
             rel="noreferrer"
             aria-label="Twitter"
-            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-primary/60 hover:-translate-y-1"
+            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-[#44318D] hover:-translate-y-1"
           >
             <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <title>Twitter</title>
@@ -44,7 +44,7 @@ export const Footer = (props: Props) => {
             target="_blank"
             rel="noreferrer"
             aria-label="Github"
-            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-primary/60 hover:-translate-y-1"
+            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-[#44318D] hover:-translate-y-1"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20">
               <title>GitHub</title>
@@ -57,7 +57,7 @@ export const Footer = (props: Props) => {
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
-            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-primary/60 hover:-translate-y-1"
+            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-[#44318D] hover:-translate-y-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -77,3 +77,7 @@ export async function convertMarketItemStructs2MarketItems(items: MarketItemStru
 
   return marketItems;
 }
+
+export function classNames(...classes: (false | null | undefined | string)[]) {
+  return classes.filter(Boolean).join(" ");
+}

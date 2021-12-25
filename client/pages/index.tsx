@@ -6,6 +6,7 @@ import * as animationData from "../animations/wings.json";
 import axios from "axios";
 import NFTCard from "../components/NFTCard";
 import { getMarketContract, getTokenContract } from "./api/blockchainService";
+import { GlowButton } from "../components/common/GlowButton";
 
 const defaultOptions = {
   loop: true,
@@ -63,8 +64,8 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <div className="grid items-center h-screen grid-cols-1 gap-8 md:grid-cols-12">
-        <div className="col-span-6 ">
+      <div className="grid h-screen grid-cols-1 md:items-center md:grid-cols-12">
+        <div className="order-last col-span-6 md:order-first">
           <h1 className="max-w-xl text-4xl font-semibold leading-tight text-white md:text-5xl">
             Best NFTs are here!
           </h1>
@@ -72,20 +73,10 @@ const Home: NextPage = () => {
           <h4 className="mt-8 text-lg font-medium leading-relaxed text-gray-200 ">
             You can find your favorite NFTs with good prices
           </h4>
-          <div className="flex items-center py-8">
-            <div className="relative">
-              <div className="absolute transition duration-1000 rounded-lg opacity-70 -inset-0.5 bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 blur group-hover:opacity-100 group-hover:duration-200 animate-tilt"></div>
-              <button
-                onClick={executeScroll}
-                className="relative flex items-center py-4 leading-none rounded-lg bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 px-7"
-              >
-                <span className="font-medium text-white transition duration-200">Explore Now</span>
-              </button>
-            </div>
-          </div>
+          <GlowButton onClick={executeScroll}>Explore Now</GlowButton>
         </div>
 
-        <div className="max-w-lg col-span-6">
+        <div className="order-first max-w-lg col-span-6 md:order-last">
           <Lottie options={defaultOptions} />
         </div>
       </div>

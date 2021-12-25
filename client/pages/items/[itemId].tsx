@@ -15,6 +15,7 @@ import { getEllipsisTxt } from "../../utils";
 import Web3Modal from "web3modal";
 import Button from "../../components/common/Button";
 import { BuyDialog } from "../../components/BuyDialog";
+import { GlowButton } from "../../components/common/GlowButton";
 
 type Props = {};
 
@@ -96,7 +97,7 @@ const ItemDetail = ({}: Props) => {
   function renderNFT(nft: MarketItem) {
     return (
       <div className="text-white mt-28">
-        <div className="grid grid-cols-3 py-4">
+        <div className="grid grid-cols-3 pt-4 pb-12">
           <div className="col-span-2 place-self-center">
             <figure className="flex justify-center px-4 ">
               <img
@@ -115,13 +116,13 @@ const ItemDetail = ({}: Props) => {
 
               <div className="flex-1"></div>
               <div className="grid grid-cols-2">
-                <div className="flex flex-col">
+                <div className="flex flex-col col-span-2 xl:col-span-1">
                   <label className="font-bold text-gray-500 text-md">Seller</label>
                   <p className="text-xl font-semibold ">
                     {getEllipsisTxt("0x00000000000000000000")}
                   </p>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col col-span-2 xl:col-span-1">
                   <label className="font-bold text-gray-500 text-md">Collection</label>
                   <p className="text-xl font-semibold ">BoredHeraClub</p>
                 </div>
@@ -148,7 +149,9 @@ const ItemDetail = ({}: Props) => {
                 <p className="text-xl font-bold text-white font-inter">{nft.price} ETH</p>
               </div>
               <div className="flex-1"></div>
-              <Button onClick={() => setOpen(true)}>{nft.isSold ? "Sold" : "Buy Now"}</Button>
+              <GlowButton onClick={() => setOpen(true)}>
+                {nft.isSold ? "Sold" : "Buy Now"}
+              </GlowButton>
             </div>
 
             <BuyDialog

@@ -3,6 +3,7 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import Link from "next/link";
+import Button from "./common/Button";
 
 interface Props {}
 
@@ -29,7 +30,7 @@ export const Navbar = (props: Props) => {
     <Disclosure
       as="nav"
       className={clsx("fixed z-40 w-full transition-all ease-in-out duration-200 py-4", {
-        "bg-gray-800 shadow-xl": scrolled,
+        " bg-[#1b1f2b] shadow-[#1b1f2b]/20 shadow-md py-1": scrolled,
       })}
     >
       {({ open }) => (
@@ -60,8 +61,8 @@ export const Navbar = (props: Props) => {
                     alt="Workflow"
                   />
                 </div>
-                <div className="hidden sm:block sm:ml-6">
-                  <div className="flex space-x-4">
+                <div className="hidden sm:block sm:ml-12">
+                  <div className="flex space-x-12">
                     {navigation.map((item) => (
                       <Link key={item.name} href={item.href}>
                         <div className="px-3 py-2 font-medium border-b-2 border-transparent cursor-pointer">
@@ -74,7 +75,7 @@ export const Navbar = (props: Props) => {
               </div>
               <div className="absolute inset-y-0 right-0 items-center hidden pr-2 space-x-6 font-semibold sm:flex sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div>Create NFT</div>
-                <button className="px-4 py-2 font-semibold text-pink-600 border-2 border-pink-600 rounded-full shadow-lg shadow-pink-600/10">
+                <button className="px-4 py-2 font-semibold transition border-2 rounded-full shadow-lg hover:border-primary hover:text-primary hover:shadow-primary/30 border-primary/80 text-primary/90 shadow-primary/10">
                   Connect Wallet
                 </button>
               </div>
