@@ -5,7 +5,12 @@ import { marketAddress, nftAddress } from "../../config";
 import NFT from "../../../hardhat/artifacts/contracts/HeraCollection.sol/HeraCollection.json";
 import Market from "../../../hardhat/artifacts/contracts/Marketplace.sol/Marketplace.json";
 
-const rpcProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ROPSTEN_URL);
+export const wssProvider = new ethers.providers.WebSocketProvider(
+  process.env.NEXT_PUBLIC_WSS_ROPSTEN_URL!
+);
+export const rpcProvider = new ethers.providers.JsonRpcProvider(
+  process.env.NEXT_PUBLIC_ROPSTEN_URL
+);
 
 export function getMarketContract(signer?: any) {
   let provider = rpcProvider;

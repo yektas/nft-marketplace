@@ -22,8 +22,7 @@ type Props = {};
 const ItemDetail = ({}: Props) => {
   const { showSpinner, hideSpinner } = useSpinner();
   const [nft, setNFT] = useState<MarketItem>();
-  const [currentOwner, setCurrentOwner] = useState();
-  const [balance, setBalance] = useState<number>(0);
+  const [owner, setOwner] = useState<string | undefined>();
   const [open, setOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
@@ -34,25 +33,14 @@ const ItemDetail = ({}: Props) => {
 
     const { itemId } = router.query;
 
-    fetchMarketItem(itemId as string).then(async (itemId) => {
-      //await setProductOwner(itemId);
-      await setAccountBalance();
+    fetchMarketItem(itemId as string).then(async (tokenId: number) => {
+      await setOwnerAddress(tokenId);
     });
   }, [router.isReady]);
 
-  /*   async function setProductOwner(itemId: number) {
-    const productOwner = await contract!.methods.getProductOwner(productId).call();
-    setCurrentOwner(productOwner);
-  } */
-
-  const isOwnedByAccount = () => {
-    return true;
-    //return nft?.isSold && currentOwner == wallet.account;
-  };
-
-  async function setAccountBalance() {
-    //setBalance(Number(Number(ethers.utils.parseUnits(wallet.balance, "ether")).toFixed(2)));
-    setBalance(Number(Number(ethers.utils.parseUnits("1", "ether")).toFixed(2)));
+  async function setOwnerAddress(tokenId: number) {
+    const owner = await getTokenContract().ownerOf(tokenId);
+    setOwner(owner);
   }
 
   async function onBuy() {
@@ -66,9 +54,10 @@ const ItemDetail = ({}: Props) => {
       const transaction = await getMarketContract(signer).createMarketSale(
         getTokenContract().address,
         nft.itemId.toString(),
-        { value: ethers.utils.parseUnits(nft.price, "ether") }
+        { value: ethers.utils.parseUnits(ethers.utils.formatEther(nft.price), "ether") }
       );
       const tx = await transaction.wait();
+      console.log("tx ", tx);
       hideSpinner();
     }
   }
@@ -76,33 +65,40 @@ const ItemDetail = ({}: Props) => {
   async function fetchMarketItem(itemId: string) {
     showSpinner();
     const nft = await getMarketContract().getNFT(itemId);
-    console.log("NFT by itemId ", nft);
     const tokenURI = await getTokenContract().tokenURI(nft.tokenId.toString());
     const metadata = await axios.get(`https://ipfs.io/ipfs/${tokenURI}`);
 
-    const price = ethers.utils.formatUnits(nft.price.toString(), "ether");
     setNFT({
       name: metadata.data.name,
       image: `https://ipfs.io/ipfs/${metadata.data.image}`,
       description: metadata.data.description,
       seller: nft.seller,
       owner: nft.owner,
+      isSold: nft.isSold,
       tokenId: nft.tokenId.toNumber(),
       itemId: Number(itemId),
-      price: price.toString(),
+      price: nft.price.toString(),
     } as MarketItem);
     hideSpinner();
+    return nft.tokenId.toNumber();
+  }
+
+  function isOwner() {
+    if (nft) {
+      return owner && owner == nft.owner;
+    }
   }
 
   function renderNFT(nft: MarketItem) {
+    const price = ethers.utils.formatUnits(nft.price.toString(), "ether");
     return (
       <div className="text-white mt-28">
-        <div className="grid grid-cols-3 pt-4 pb-12">
+        <div className="grid grid-cols-1 gap-10 pt-4 pb-12 space-y-10 md:gap-2 md:grid-cols-3">
           <div className="col-span-2 place-self-center">
             <figure className="flex justify-center px-4 ">
               <img
                 src={nft.image}
-                className="object-cover w-2/3 rounded-lg shadow-lg aspect-square"
+                className="object-cover w-full rounded-lg shadow-lg md:w-2/3 aspect-square"
               />
             </figure>
           </div>
@@ -110,20 +106,22 @@ const ItemDetail = ({}: Props) => {
           <div className="h-full ">
             <div className="flex flex-col h-full ml-4">
               <h1 className="text-4xl font-semibold">{nft.name}</h1>
-              <p className="mt-10 text-lg font-semibold leading-loose text-gray-400">
+              <p className="mt-10 text-lg font-semibold leading-normal text-gray-400">
                 {nft.description}
               </p>
 
               <div className="flex-1"></div>
               <div className="grid grid-cols-2">
                 <div className="flex flex-col col-span-2 xl:col-span-1">
-                  <label className="font-bold text-gray-500 text-md">Seller</label>
-                  <p className="text-xl font-semibold ">
-                    {getEllipsisTxt("0x00000000000000000000")}
+                  <label className="font-semibold text-gray-500 text-md">
+                    {isOwner() ? "Owner" : "Seller"}
+                  </label>
+                  <p className="text-xl font-semibold lowercase font-poppins">
+                    {owner && getEllipsisTxt(owner)}
                   </p>
                 </div>
                 <div className="flex flex-col col-span-2 xl:col-span-1">
-                  <label className="font-bold text-gray-500 text-md">Collection</label>
+                  <label className="font-semibold text-gray-500 text-md">Collection</label>
                   <p className="text-xl font-semibold ">BoredHeraClub</p>
                 </div>
               </div>
@@ -145,12 +143,17 @@ const ItemDetail = ({}: Props) => {
               </div> */}
 
               <div className="flex flex-col mt-2">
-                <label className="font-bold text-gray-500 text-md">Price</label>
-                <p className="text-xl font-bold text-white font-inter">{nft.price} ETH</p>
+                <label className="font-semibold text-gray-500 text-md">
+                  {isOwner() ? "Last Price" : "Price"}
+                </label>
+                <p className="text-xl font-bold text-white font-inter">
+                  <img src="/eth.svg" className="inline w-5 h-5 filter brightness-300" /> {price}{" "}
+                  ETH
+                </p>
               </div>
               <div className="flex-1"></div>
               <GlowButton onClick={() => setOpen(true)}>
-                {nft.isSold ? "Sold" : "Buy Now"}
+                {nft.isSold ? "Sell" : "Buy Now"}
               </GlowButton>
             </div>
 
@@ -158,7 +161,6 @@ const ItemDetail = ({}: Props) => {
               open={open}
               onClose={() => setOpen(false)}
               price={nft.price}
-              currentBalance={balance}
               onBuy={() => onBuy()}
             />
           </div>

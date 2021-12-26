@@ -4,9 +4,9 @@ import { useSpinner } from "../components/common/SpinnerContext";
 import { ethers } from "ethers";
 import { getMarketContract } from "./api/blockchainService";
 import { convertMarketItemStructs2MarketItems } from "../utils";
-import NFTCard from "../components/NFTCard";
 import { MarketItem } from ".";
-import NFTCard2 from "../components/NFTCard";
+import NFTBuyCard from "../components/NFTBuyCard";
+import NFTCard from "../components/NFTCard";
 
 interface Props {}
 
@@ -34,14 +34,15 @@ function MyNFTs(props: Props) {
   }
 
   return (
-    <div className="container mx-auto mt-10 space-y-10">
-      <h1 className="text-3xl prose-2xl text-white">My NFTs</h1>
-      <div className="pb-2 bg-gray-900 border-t-2 border-gray-700"></div>
-      <div className="grid grid-cols-3 gap-10 ">
+    <div className="container mx-auto mt-28">
+      <h1 className="text-4xl font-semibold text-center ">
+        My <span className="text-primary">NTFs</span>
+      </h1>
+      <div className="grid grid-cols-1 gap-10 py-8 md:grid-cols-2 lg:grid-cols-3">
         {nfts && nfts.length > 0 ? (
           nfts.map((nft: MarketItem) => <NFTCard key={nft.itemId} nft={nft} />)
         ) : (
-          <div>You don't have a NFT</div>
+          <div>You don't have a NFT yet</div>
         )}
       </div>
     </div>

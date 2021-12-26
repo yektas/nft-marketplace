@@ -28,6 +28,9 @@ module.exports = {
       boxShadow: {
         homogen: "0 0 10px 3px rgba(0,0,0,0.5)",
       },
+      brightness: {
+        300: "3",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],

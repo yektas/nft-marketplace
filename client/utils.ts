@@ -32,9 +32,9 @@ export async function loadImgURL(cid: string, mime?: string) {
   }
 }
 
-export function getEllipsisTxt(str: string, n = 6) {
+export function getEllipsisTxt(str: string, n = 4) {
   if (str) {
-    return `${str.slice(0, n)}...${str.slice(str.length - n)}`;
+    return `${str.slice(0, n + 2)}...${str.slice(str.length - n)}`;
   }
   return "";
 }

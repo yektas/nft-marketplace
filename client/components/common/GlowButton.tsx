@@ -7,7 +7,7 @@ interface Props {
 
 export const GlowButton = ({ children, onClick }: Props) => {
   return (
-    <div className="flex items-center py-8 hover:">
+    <div className="flex items-center py-8">
       <div className="relative group">
         <div className="absolute transition duration-200 rounded-full opacity-60 -inset-0.5 bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 blur group-hover:opacity-100 group-hover:duration-200 animate-tilt"></div>
         <button

@@ -7,6 +7,7 @@ import axios from "axios";
 import NFTCard from "../components/NFTCard";
 import { getMarketContract, getTokenContract } from "./api/blockchainService";
 import { GlowButton } from "../components/common/GlowButton";
+import NFTBuyCard from "../components/NFTBuyCard";
 
 const defaultOptions = {
   loop: true,
@@ -25,7 +26,7 @@ export type MarketItem = {
   image: string;
   owner: string;
   seller: string;
-  isSold?: boolean;
+  isSold: boolean;
   tokenId: number;
   itemId: number;
 };
@@ -49,6 +50,7 @@ const Home: NextPage = () => {
           description: metadata.data.description,
           seller: nft.seller,
           owner: nft.owner,
+          isSold: nft.isSold,
           tokenId: nft.tokenId.toNumber(),
           itemId: nft.itemId.toNumber(),
           price: price.toString(),
@@ -58,14 +60,14 @@ const Home: NextPage = () => {
     setNFTs(items);
   }
 
-  const nftsRef = useRef(null);
+  const nftsRef = useRef<null | HTMLDivElement>(null);
 
-  const executeScroll = () => nftsRef && nftsRef.current && nftsRef.current.scrollIntoView();
+  const executeScroll = () => nftsRef!.current!.scrollIntoView({ behavior: "smooth" });
 
   return (
     <>
-      <div className="grid h-screen grid-cols-1 md:items-center md:grid-cols-12">
-        <div className="order-last col-span-6 md:order-first">
+      <div className="flex flex-col items-center justify-center w-full h-screen sm:flex-row sm:justify-evenly">
+        <div className="order-2 sm:order-1">
           <h1 className="max-w-xl text-4xl font-semibold leading-tight text-white md:text-5xl">
             Best NFTs are here!
           </h1>
@@ -76,18 +78,18 @@ const Home: NextPage = () => {
           <GlowButton onClick={executeScroll}>Explore Now</GlowButton>
         </div>
 
-        <div className="order-first max-w-lg col-span-6 md:order-last">
+        <div className="order-1 w-3/4 md:w-1/2 sm:order-2">
           <Lottie options={defaultOptions} />
         </div>
       </div>
 
-      <section ref={nftsRef} className="container mx-auto mt-2 space-y-10 scroll-mt-28">
+      <section ref={nftsRef} className="container mx-auto mt-8 md:mt-2 scroll-mt-28">
         <h1 className="text-4xl font-semibold text-center ">
           Latest <span className="text-primary">NTFs</span>
         </h1>
-        <div className="grid grid-cols-3 gap-10 py-8">
+        <div className="grid grid-cols-1 gap-10 py-8 md:grid-cols-2 lg:grid-cols-3 lg">
           {NFTs && NFTs.length > 0 ? (
-            NFTs.map((nft: MarketItem) => <NFTCard nft={nft} />)
+            NFTs.map((nft: MarketItem) => <NFTBuyCard nft={nft} />)
           ) : (
             <div>No NFTs in marketplace</div>
           )}
