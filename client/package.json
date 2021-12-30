@@ -3,7 +3,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "cd ../hardhat && yarn install && yarn generate-types",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
