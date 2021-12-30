@@ -1,39 +1,38 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment, useEffect, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Web3Modal from "web3modal";
-import Button from "./common/Button";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { getMarketContract, getTokenContract } from "../pages/api/blockchainService";
+import { BlockchainContext } from "../context/BlockchainContext";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  tokenId: number;
+  itemId: number;
 }
 
-export const SellDialog = ({ open, tokenId, onClose }: Props) => {
+export const SellDialog = ({ open, itemId, onClose }: Props) => {
+  const { getProvider } = useContext(BlockchainContext);
+
   const [price, setPrice] = useState<string | undefined>();
 
   async function sellNFT(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     if (!price || (price && Number(price) <= 0)) {
       alert("Enter a valid price");
       return;
     }
-
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
+    const provider = await getProvider();
     const signer = provider.getSigner();
 
-    const nftContract = getTokenContract();
+    const nftContract = getTokenContract(signer);
 
     const marketContract = getMarketContract(signer);
     const listingCommision = await marketContract.getListingCommision();
 
     const transaction = await marketContract.createMarketItem(
       nftContract.address,
-      tokenId,
+      itemId.toString(),
       ethers.utils.parseEther(price!),
       {
         value: listingCommision.toString(),

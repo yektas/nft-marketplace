@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Web3Modal from "web3modal";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { create } from "ipfs-http-client";
 
@@ -10,6 +9,7 @@ import { Loader } from "../components/common/Loader";
 import { ethers } from "ethers";
 import { getMarketContract, getTokenContract } from "./api/blockchainService";
 import { useRouter } from "next/router";
+import { BlockchainContext } from "../context/BlockchainContext";
 
 interface Props {}
 
@@ -17,6 +17,8 @@ const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
 
 function CreateItem(props: Props) {
   const router = useRouter();
+
+  const { getProvider } = useContext(BlockchainContext);
 
   const [inputs, setInputs] = useState<Partial<MarketItem>>({
     name: "",
@@ -69,10 +71,17 @@ function CreateItem(props: Props) {
   const handleChange = useCallback(
     ({ target }) =>
       setInputs((_state) => {
-        return {
-          ..._state,
-          [target.name]: target.value,
-        };
+        if (target.name === "price") {
+          return {
+            ..._state,
+            [target.name]: ethers.utils.parseEther(target.value),
+          };
+        } else {
+          return {
+            ..._state,
+            [target.name]: target.value,
+          };
+        }
       }),
     []
   );
@@ -88,7 +97,6 @@ function CreateItem(props: Props) {
       image: imageCID,
     });
     const added = await client.add(tokenURI);
-
     await createMarketSale(added.path);
 
     hideSpinner();
@@ -96,9 +104,7 @@ function CreateItem(props: Props) {
   };
 
   async function createMarketSale(tokenURI: string) {
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
+    const provider = await getProvider();
     const signer = provider.getSigner();
 
     const tokenContract = getTokenContract(signer);
@@ -106,7 +112,7 @@ function CreateItem(props: Props) {
     let tx = await transaction.wait();
 
     const tokenId = tx!.events![0].args![2];
-    const price = ethers.utils.parseUnits(inputs.price!, "ether");
+    //const price = ethers.utils.parseUnits(inputs.price!, "ether");
 
     const marketContract = getMarketContract(signer);
     const listingCommision = await marketContract.getListingCommision();
@@ -114,7 +120,7 @@ function CreateItem(props: Props) {
     transaction = await marketContract.createMarketItem(
       tokenContract.address,
       tokenId.toString(),
-      price,
+      inputs.price!,
       {
         value: listingCommision.toString(),
       }
@@ -239,7 +245,7 @@ function CreateItem(props: Props) {
               id="price"
               name="price"
               onChange={handleChange}
-              value={inputs.price}
+              value={ethers.utils.formatEther(inputs.price!)}
               className="block w-full h-10 pr-16 bg-[#282c36] border-none rounded-lg focus:ring-primary sm:text-sm"
               placeholder="0.5"
               step=".1"

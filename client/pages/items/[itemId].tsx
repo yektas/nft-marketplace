@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
-import { Check } from "../../components/common/Check";
-import { Copy } from "../../components/common/Copy";
-//import { BiddingDialog } from "../../components/BiddingDialog";
-import clsx from "clsx";
 import { useSpinner } from "../../components/common/SpinnerContext";
 import { MarketItem } from "..";
 import { ethers } from "ethers";
@@ -12,8 +7,6 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { getMarketContract, getTokenContract } from "../api/blockchainService";
 import { getEllipsisTxt } from "../../utils";
-import Web3Modal from "web3modal";
-import Button from "../../components/common/Button";
 import { BuyDialog } from "../../components/BuyDialog";
 import { GlowButton } from "../../components/common/GlowButton";
 
@@ -24,7 +17,6 @@ const ItemDetail = ({}: Props) => {
   const [nft, setNFT] = useState<MarketItem>();
   const [owner, setOwner] = useState<string | undefined>();
   const [open, setOpen] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
 
   const router = useRouter();
 
@@ -43,28 +35,10 @@ const ItemDetail = ({}: Props) => {
     setOwner(owner);
   }
 
-  async function onBuy() {
-    if (nft) {
-      const web3Modal = new Web3Modal();
-      const connection = await web3Modal.connect();
-      const provider = new ethers.providers.Web3Provider(connection);
-      const signer = provider.getSigner();
-
-      showSpinner();
-      const transaction = await getMarketContract(signer).createMarketSale(
-        getTokenContract().address,
-        nft.itemId.toString(),
-        { value: ethers.utils.parseUnits(ethers.utils.formatEther(nft.price), "ether") }
-      );
-      const tx = await transaction.wait();
-      console.log("tx ", tx);
-      hideSpinner();
-    }
-  }
-
   async function fetchMarketItem(itemId: string) {
     showSpinner();
     const nft = await getMarketContract().getNFT(itemId);
+    console.log("pure ", nft.price);
     const tokenURI = await getTokenContract().tokenURI(nft.tokenId.toString());
     const metadata = await axios.get(`https://ipfs.io/ipfs/${tokenURI}`);
 
@@ -77,7 +51,7 @@ const ItemDetail = ({}: Props) => {
       isSold: nft.isSold,
       tokenId: nft.tokenId.toNumber(),
       itemId: Number(itemId),
-      price: nft.price.toString(),
+      price: nft.price,
     } as MarketItem);
     hideSpinner();
     return nft.tokenId.toNumber();
@@ -105,7 +79,9 @@ const ItemDetail = ({}: Props) => {
 
           <div className="h-full ">
             <div className="flex flex-col h-full ml-4">
-              <h1 className="text-4xl font-semibold">{nft.name}</h1>
+              <h1 className="text-4xl font-semibold">
+                {nft.name} - #{nft.itemId}
+              </h1>
               <p className="mt-10 text-lg font-semibold leading-normal text-gray-400">
                 {nft.description}
               </p>
@@ -126,22 +102,6 @@ const ItemDetail = ({}: Props) => {
                 </div>
               </div>
 
-              {/*  <div className="flex justify-between mt-10 ">
-                <div className="flex flex-col ">
-                  <p className="pb-2 font-medium text-gray-500 text-md ">Seller</p>
-                  <p className="flex font-semibold text-white ">
-                    {currentOwner && currentOwner}
-                    <span className="inline-block">
-                      {isCopied ? (
-                        <Check />
-                      ) : (
-                        <Copy onClick={() => setIsCopied(true)} address={currentOwner!} />
-                      )}
-                    </span>
-                  </p>
-                </div>
-              </div> */}
-
               <div className="flex flex-col mt-2">
                 <label className="font-semibold text-gray-500 text-md">
                   {isOwner() ? "Last Price" : "Price"}
@@ -161,7 +121,8 @@ const ItemDetail = ({}: Props) => {
               open={open}
               onClose={() => setOpen(false)}
               price={nft.price}
-              onBuy={() => onBuy()}
+              itemId={nft.itemId}
+              onComplete={() => setOpen(false)}
             />
           </div>
         </div>

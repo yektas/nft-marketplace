@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Web3Modal from "web3modal";
 import { useSpinner } from "../components/common/SpinnerContext";
 import { ethers } from "ethers";
@@ -7,10 +7,13 @@ import { convertMarketItemStructs2MarketItems } from "../utils";
 import { MarketItem } from ".";
 import NFTBuyCard from "../components/NFTBuyCard";
 import NFTCard from "../components/NFTCard";
+import { BlockchainContext } from "../context/BlockchainContext";
 
 interface Props {}
 
 function MyNFTs(props: Props) {
+  const { getProvider } = useContext(BlockchainContext);
+
   const { showSpinner, hideSpinner } = useSpinner();
   const [nfts, setNFTs] = useState<MarketItem[]>();
   useEffect(() => {
@@ -20,15 +23,14 @@ function MyNFTs(props: Props) {
 
   async function fetchMyNFTs() {
     console.log("Trying to fetch ....");
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
+    const provider = await getProvider();
     const signer = provider.getSigner();
 
     const marketContract = getMarketContract(signer);
-
     const marketNFTs = await marketContract.getMyNFTs();
     const myNFTs = await convertMarketItemStructs2MarketItems(marketNFTs);
+    console.log("marketNFTs ", marketNFTs);
+    console.log("myNFTs ", myNFTs);
     setNFTs(myNFTs);
     hideSpinner();
   }

@@ -1,36 +1,60 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment, useEffect, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Web3Modal from "web3modal";
 import Button from "./common/Button";
 import { BigNumber, ethers } from "ethers";
+import { BlockchainContext } from "../context/BlockchainContext";
+import { useSpinner } from "./common/SpinnerContext";
+import { getMarketContract, getTokenContract } from "../pages/api/blockchainService";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  price: string;
-  onBuy: () => void;
+  price: BigNumber;
+  onComplete: () => void;
+  itemId: number;
 }
 
-export const BuyDialog = ({ open, onClose, price, onBuy }: Props) => {
+export const BuyDialog = ({ open, onClose, price, itemId, onComplete }: Props) => {
+  const { showSpinner, hideSpinner } = useSpinner();
+  const { connectWallet, connectedAccount, getProvider } = useContext(BlockchainContext);
   const [balance, setBalance] = useState<string | undefined>();
 
   useEffect(() => {
     getBalance();
   }, []);
+
   async function getBalance() {
-    const web3Modal = new Web3Modal();
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const accounts = await provider.listAccounts();
-    const userBalance = await provider.getBalance(accounts[0]);
+    if (connectedAccount == undefined) {
+      await connectWallet();
+    }
+
+    const provider = await getProvider();
+    const userBalance = await provider.getBalance(connectedAccount!);
     setBalance(userBalance.toString());
+  }
+
+  async function onBuy() {
+    const provider = await getProvider();
+    const signer = provider.getSigner();
+
+    showSpinner();
+    const transaction = await getMarketContract(signer).createMarketSale(
+      getTokenContract().address,
+      itemId.toString(),
+      { value: price }
+    );
+    const tx = await transaction.wait();
+    console.log("tx ", tx);
+    onComplete();
+    hideSpinner();
   }
 
   function getRemainingBalanceAfterPurchase() {
     let remaining: BigNumber;
     if (balance) {
       let bigBalance = ethers.utils.parseEther(balance);
-      let itemPrice = ethers.utils.parseEther(price);
+      let itemPrice = ethers.utils.parseEther(price.toString());
       remaining = bigBalance.sub(itemPrice);
 
       let rounded: any = ethers.utils.formatEther(remaining);
@@ -76,7 +100,7 @@ export const BuyDialog = ({ open, onClose, price, onBuy }: Props) => {
                 <p className="font-semibold text-gray-500">
                   Price{" "}
                   <span className="float-right font-medium text-gray-200 font-inter">
-                    {Number(ethers.utils.formatEther(price)).toFixed(2)} ETH
+                    {ethers.utils.formatEther(price)} ETH
                   </span>
                 </p>
               </div>

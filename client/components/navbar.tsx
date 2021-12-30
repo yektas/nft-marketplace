@@ -1,12 +1,14 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import Web3Modal from "web3modal";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import clsx from "clsx";
 import Link from "next/link";
 import { ethers } from "ethers";
 import { getEllipsisTxt } from "../utils";
 import WalletSvg from "./svg/WalletSvg";
+import { AppContextProps, BlockchainContext } from "../context/BlockchainContext";
+import { ContextType } from "react";
 
 interface Props {}
 
@@ -17,37 +19,12 @@ const navigation = [
 ];
 
 export const Navbar = (props: Props) => {
-  const [walletAddress, setWalletAddress] = useState<string>();
   const [scrolled, setScrolled] = useState(false);
 
-  async function onConnectWallet() {
-    const web3Modal = new Web3Modal({ cacheProvider: true });
-    if (web3Modal.cachedProvider) {
-      console.log(web3Modal.cachedProvider);
-      await web3Modal.connect();
-    } else {
-      console.log("not cached");
-    }
-
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const accounts = await provider.listAccounts();
-    if (accounts) {
-      setWalletAddress(accounts[0]);
-    }
-  }
-
-  async function onDisconnect() {
-    const web3Modal = new Web3Modal({ cacheProvider: true });
-    if (web3Modal.cachedProvider) {
-      web3Modal.clearCachedProvider();
-      setWalletAddress(undefined);
-    }
-  }
+  const { connectedAccount, connectWallet, disconnect } = useContext(BlockchainContext);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-    onConnectWallet();
   }, []);
 
   const handleScroll = () => {
@@ -115,17 +92,17 @@ export const Navbar = (props: Props) => {
                 <Link href="/createItem">
                   <button className="hidden font-medium md:block">Create NFT</button>
                 </Link>
-                {walletAddress ? (
+                {connectedAccount ? (
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <Menu.Button className="flex items-center max-w-xs px-4 py-2 text-white transition bg-gray-800 rounded-full hover:bg-gray-700 shadow-homogen font-poppins">
+                      <Menu.Button className="flex items-center max-w-xs px-4 py-2 text-white transition bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 rounded-full hover:bg-gray-700 shadow-homogen font-poppins">
                         <span className="sr-only">Open user menu</span>
 
                         <div className="pr-2">
                           <WalletSvg className="w-5 h-5 text-white" />
                         </div>
 
-                        <div className="font-sm">{getEllipsisTxt(walletAddress)}</div>
+                        <div className="font-sm">{getEllipsisTxt(connectedAccount)}</div>
                       </Menu.Button>
                     </div>
                     <Transition
@@ -140,7 +117,7 @@ export const Navbar = (props: Props) => {
                       <Menu.Items className="absolute right-0 py-1 mt-2 origin-top-right bg-gray-800 rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           <div className="m-2 rounded-md hover:bg-gray-700">
-                            <button onClick={onDisconnect} className="block p-2 text-white ">
+                            <button onClick={() => disconnect()} className="block p-2 text-white ">
                               Disconnect
                             </button>
                           </div>
@@ -150,7 +127,7 @@ export const Navbar = (props: Props) => {
                   </Menu>
                 ) : (
                   <button
-                    onClick={onConnectWallet}
+                    onClick={() => connectWallet()}
                     className="px-4 py-2 font-semibold transition border-2 rounded-full shadow-lg hover:border-primary hover:text-primary hover:shadow-primary/30 border-primary/80 text-primary/90 shadow-primary/10"
                   >
                     Connect Wallet

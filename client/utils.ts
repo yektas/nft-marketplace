@@ -34,7 +34,7 @@ export async function loadImgURL(cid: string, mime?: string) {
 
 export function getEllipsisTxt(str: string, n = 4) {
   if (str) {
-    return `${str.slice(0, n + 2)}...${str.slice(str.length - n)}`;
+    return `${str.slice(0, n + 2)}...${str.slice(str.length - n)}`.toLowerCase();
   }
   return "";
 }
@@ -42,7 +42,6 @@ export function getEllipsisTxt(str: string, n = 4) {
 export async function convertMarketItemStruct2MarketItem(item: MarketItemStructOutput) {
   const tokenURI = await getTokenContract().tokenURI(item.tokenId);
   const metadata = await axios.get(`https://ipfs.io/ipfs/${tokenURI}`);
-  const price = ethers.utils.formatUnits(item.price.toString(), "ether");
   return {
     name: metadata.data.name,
     image: `https://ipfs.io/ipfs/${metadata.data.image}`,
@@ -51,7 +50,7 @@ export async function convertMarketItemStruct2MarketItem(item: MarketItemStructO
     owner: item.owner,
     tokenId: item.tokenId.toNumber(),
     itemId: item.itemId.toNumber(),
-    price: price.toString(),
+    price: item.price,
   } as MarketItem;
 }
 
@@ -62,7 +61,6 @@ export async function convertMarketItemStructs2MarketItems(items: MarketItemStru
   for (let i = 0; i < items.length; i++) {
     const tokenURI = await contract.tokenURI(items[i].tokenId);
     const metadata = await axios.get(`https://ipfs.io/ipfs/${tokenURI}`);
-    const price = ethers.utils.formatUnits(items[i].price.toString(), "ether");
     marketItems.push({
       name: metadata.data.name,
       image: `https://ipfs.io/ipfs/${metadata.data.image}`,
@@ -71,8 +69,8 @@ export async function convertMarketItemStructs2MarketItems(items: MarketItemStru
       owner: items[i].owner,
       tokenId: items[i].tokenId.toNumber(),
       itemId: items[i].itemId.toNumber(),
-      price: price.toString(),
-    });
+      price: items[i].price,
+    } as MarketItem);
   }
 
   return marketItems;

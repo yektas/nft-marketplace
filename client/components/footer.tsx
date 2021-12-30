@@ -31,7 +31,7 @@ export const Footer = (props: Props) => {
             target="_blank"
             rel="noreferrer"
             aria-label="Twitter"
-            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-[#44318D] hover:-translate-y-1"
+            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 hover:-translate-y-1"
           >
             <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <title>Twitter</title>
@@ -44,7 +44,7 @@ export const Footer = (props: Props) => {
             target="_blank"
             rel="noreferrer"
             aria-label="Github"
-            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-[#44318D] hover:-translate-y-1"
+            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 hover:-translate-y-1"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 20 20">
               <title>GitHub</title>
@@ -57,13 +57,13 @@ export const Footer = (props: Props) => {
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
-            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-[#44318D] hover:-translate-y-1"
+            className="inline p-2 transition-all duration-200 ease-in-out rounded-full shadow-xl fill-current bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 hover:-translate-y-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
-              className="w-6 h-6"
+              className="w-6 h-6 rounded-md"
               viewBox="0 0 24 24"
             >
               <path d="M0 0v24h24v-24h-24zm8 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.397-2.586 7-2.777 7 2.476v6.759z" />
