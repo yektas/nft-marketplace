@@ -6,7 +6,7 @@ import { useSpinner } from "../components/common/SpinnerContext";
 
 import { MarketItem } from "../pages";
 import { Loader } from "../components/common/Loader";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { getMarketContract, getTokenContract } from "./api/blockchainService";
 import { useRouter } from "next/router";
 import { BlockchainContext } from "../context/BlockchainContext";
@@ -24,6 +24,7 @@ function CreateItem(props: Props) {
     name: "",
     description: "",
     image: "",
+    price: BigNumber.from("0"),
   });
   const [preview, setPreview] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
