@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/yektas/nft-marketplace">
-    <img src="client/public/n-big.png" alt="Logo" width="80" height="80">
+    <img src="public/n-big.png" alt="Logo" width="80" height="80">
   </a>
 
 <br />
