@@ -24,7 +24,7 @@
 <img src="https://user-images.githubusercontent.com/9054528/147789460-68952b2d-5cb4-433a-b8c3-b7e578f4af77.png" alt="NFT Marketplace" style="zoom:60%;" />
 </div>
 
-## [Live Demo](https://sercanyektas.com) (Use **Ropsten Testnet**)
+## [Live Demo](https://nft-marketplace-kappa.vercel.app) (Use **Ropsten Testnet**)
 
 ## About The Project
 
