@@ -1,97 +1,34 @@
-<div id="top"></div>
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+## Getting Started
 
-<br />
-<div align="center">
-  <a href="https://github.com/yektas/nft-marketplace">
-    <img src="client/public/n-big.png" alt="Logo" width="80" height="80">
-  </a>
+First, run the development server:
 
-<br />
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-# Full stack NFT Marketplace application
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-</div>
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-<!-- ABOUT THE PROJECT -->
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-<div align="center">
-<img src="https://user-images.githubusercontent.com/9054528/147789460-68952b2d-5cb4-433a-b8c3-b7e578f4af77.png" alt="NFT Marketplace" style="zoom:60%;" />
-</div>
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## [Live Demo](https://sercanyektas.com) (Use **Ropsten Testnet**)
+## Learn More
 
-## About The Project
+To learn more about Next.js, take a look at the following resources:
 
-This project is developed by following Nader Dabit's NFT course. I have added a lot of stuff like a better UI and wallet operations using React context api and hooks.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Additionaly I used typescript along side with hardhat to create type safe project.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Built With
+## Deploy on Vercel
 
-- Solidity
-- Ethers.js
-- Web3Modal
-- Next.js
-- Typescript
-- TailwindCSS
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-<!-- GETTING STARTED -->
-
-<!-- ## Getting Started
-
-<!-- ### Installation
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/yektas/nft-marketplace.git
-   ```
-2. Install packages
-
-   ```sh
-   yarn install
-   ```
-
-   or
-
-   ```sh
-   npm install
-   ```
-
-3. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
-   ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
- -->
-
-## Contact Me
-
-Sercan Yektas - [@syektas](https://twitter.com/syektas) - ahmetsercanyektas@gmail.com
-
-Portfolio Website - [Portfolio](https://sercanyektas.com)
-
-<!-- ACKNOWLEDGMENTS -->
-
-<p align="right">(<a href="#top">Back to Top</a>)</p>
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/yektas/nft-marketplace.svg?style=for-the-badge
-[contributors-url]: https://github.com/yektas/nft-marketplace/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/yektas/nft-marketplace.svg?style=for-the-badge
-[forks-url]: https://github.com/yektas/nft-marketplace/network/members
-[stars-shield]: https://img.shields.io/github/stars/yektas/nft-marketplace.svg?style=for-the-badge
-[stars-url]: https://github.com/yektas/nft-marketplace/stargazers
-[license-shield]: https://img.shields.io/github/license/yektas/nft-marketplace.svg?style=for-the-badge
-[license-url]: https://github.com/yektas/nft-marketplace/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/sercanyektas/
-[product-screenshot]: https://user-images.githubusercontent.com/9054528/147789460-68952b2d-5cb4-433a-b8c3-b7e578f4af77.png
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
