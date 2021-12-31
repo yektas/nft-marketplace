@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import Web3Modal from "web3modal";
 import { useSpinner } from "../components/common/SpinnerContext";
-import { ethers } from "ethers";
 import { getMarketContract } from "./api/blockchainService";
 import { convertMarketItemStructs2MarketItems } from "../utils";
 import { MarketItem } from ".";
-import NFTBuyCard from "../components/NFTBuyCard";
 import NFTCard from "../components/NFTCard";
 import { BlockchainContext } from "../context/BlockchainContext";
 
@@ -22,15 +19,17 @@ function MyNFTs(props: Props) {
   }, []);
 
   async function fetchMyNFTs() {
-    console.log("Trying to fetch ....");
     const provider = await getProvider();
+    if (!provider) {
+      hideSpinner();
+      return;
+    }
+
     const signer = provider.getSigner();
 
     const marketContract = getMarketContract(signer);
     const marketNFTs = await marketContract.getMyNFTs();
     const myNFTs = await convertMarketItemStructs2MarketItems(marketNFTs);
-    console.log("marketNFTs ", marketNFTs);
-    console.log("myNFTs ", myNFTs);
     setNFTs(myNFTs);
     hideSpinner();
   }
@@ -44,7 +43,7 @@ function MyNFTs(props: Props) {
         {nfts && nfts.length > 0 ? (
           nfts.map((nft: MarketItem) => <NFTCard key={nft.itemId} nft={nft} />)
         ) : (
-          <div>You don't have a NFT yet</div>
+          <div>You don&apos;t have a NFT yet</div>
         )}
       </div>
     </div>

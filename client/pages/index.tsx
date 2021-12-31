@@ -8,6 +8,7 @@ import NFTCard from "../components/NFTCard";
 import { getMarketContract, getTokenContract } from "./api/blockchainService";
 import { GlowButton } from "../components/common/GlowButton";
 import NFTBuyCard from "../components/NFTBuyCard";
+import { useSpinner } from "../components/common/SpinnerContext";
 
 const defaultOptions = {
   loop: true,
@@ -32,12 +33,14 @@ export type MarketItem = {
 };
 const Home: NextPage = () => {
   const [NFTs, setNFTs] = useState<MarketItem[] | undefined>([]);
+  const { showSpinner, hideSpinner } = useSpinner();
 
   useEffect(() => {
     loadNFTs();
   }, []);
 
   async function loadNFTs() {
+    showSpinner();
     const data = await getMarketContract().getAllMarketItems();
     const items = await Promise.all(
       data.map(async (nft) => {
@@ -58,6 +61,7 @@ const Home: NextPage = () => {
       })
     );
     setNFTs(items);
+    hideSpinner();
   }
 
   const nftsRef = useRef<null | HTMLDivElement>(null);

@@ -117,13 +117,15 @@ const ItemDetail = ({}: Props) => {
               </GlowButton>
             </div>
 
-            <BuyDialog
-              open={open}
-              onClose={() => setOpen(false)}
-              price={nft.price}
-              itemId={nft.itemId}
-              onComplete={() => setOpen(false)}
-            />
+            {open && (
+              <BuyDialog
+                open={open}
+                onClose={() => setOpen(false)}
+                price={nft.price}
+                itemId={nft.itemId}
+                onComplete={() => setOpen(false)}
+              />
+            )}
           </div>
         </div>
       </div>
