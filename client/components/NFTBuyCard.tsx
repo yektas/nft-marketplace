@@ -14,8 +14,8 @@ const NFTBuyCard = ({ nft }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative text-gray-200  shadow-homogen bg-background rounded-2xl">
-      <span className="absolute z-10 inline-flex items-center px-3 text-sm font-semibold text-white bg-primary rounded-full  right-2 top-2">
+    <div className="relative text-gray-200 shadow-homogen bg-background rounded-2xl">
+      <span className="absolute z-10 inline-flex items-center px-3 text-sm font-semibold text-white rounded-full bg-primary right-2 top-2">
         # <span className="pl-1 text-xl">{nft.itemId}</span>
       </span>
       <Link href={`/items/${nft.itemId}`}>
@@ -40,13 +40,15 @@ const NFTBuyCard = ({ nft }: Props) => {
         </div>
       </div>
 
-      <BuyDialog
-        open={open}
-        onClose={() => setOpen(false)}
-        price={nft.price}
-        itemId={nft.itemId}
-        onComplete={() => setOpen(false)}
-      />
+      {open && (
+        <BuyDialog
+          open={open}
+          onClose={() => setOpen(false)}
+          price={nft.price}
+          itemId={nft.itemId}
+          onComplete={() => setOpen(false)}
+        />
+      )}
     </div>
   );
 };

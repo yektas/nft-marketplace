@@ -1,4 +1,0 @@
-{
-  "solidity.packageDefaultDependenciesContractsDirectory": "",
-  "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules"
-}

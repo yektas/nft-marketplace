@@ -95,7 +95,7 @@ export const Navbar = (props: Props) => {
                 {connectedAccount ? (
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <Menu.Button className="flex items-center max-w-xs px-4 py-2 text-white transition bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 rounded-full hover:bg-gray-700 shadow-homogen font-poppins">
+                      <Menu.Button className="flex items-center max-w-xs px-4 py-2 text-white transition rounded-full bg-gradient-to-tl from-indigo-500 via-purple-500 to-pink-500 hover:bg-gray-700 shadow-homogen font-poppins">
                         <span className="sr-only">Open user menu</span>
 
                         <div className="pr-2">
@@ -127,7 +127,7 @@ export const Navbar = (props: Props) => {
                   </Menu>
                 ) : (
                   <button
-                    onClick={() => connectWallet()}
+                    onClick={() => connectWallet(true)}
                     className="px-4 py-2 font-semibold transition border-2 rounded-full shadow-lg hover:border-primary hover:text-primary hover:shadow-primary/30 border-primary/80 text-primary/90 shadow-primary/10"
                   >
                     Connect Wallet

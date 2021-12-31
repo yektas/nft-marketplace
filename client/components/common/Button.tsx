@@ -28,4 +28,5 @@ const Button = React.forwardRef(({ children, className, type, onClick, ...props 
   );
 });
 
+Button.displayName = "Button";
 export default Button;
