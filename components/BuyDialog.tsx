@@ -31,7 +31,7 @@ export const BuyDialog = ({ open, onClose, price, itemId, onComplete }: Props) =
 
     const provider = await getProvider();
     const userBalance = await provider.getBalance(connectedAccount!);
-    setBalance(userBalance.toString());
+    setBalance(ethers.utils.formatUnits(userBalance));
   }
 
   async function onBuy() {
@@ -51,19 +51,13 @@ export const BuyDialog = ({ open, onClose, price, itemId, onComplete }: Props) =
   }
 
   function getRemainingBalanceAfterPurchase() {
-    let remaining: BigNumber;
     if (balance) {
-      let bigBalance = ethers.utils.parseEther(balance);
-      let itemPrice = ethers.utils.parseEther(price.toString());
-      remaining = bigBalance.sub(itemPrice);
-
-      let rounded: any = ethers.utils.formatEther(remaining);
-      rounded = Math.round(rounded * 1e4) / 1e4;
-      let clean: any = ethers.utils.formatEther(String(rounded));
-      clean = (+clean).toFixed(2);
-      return clean;
+      let balanceBig = ethers.utils.parseEther(balance);
+      let remaining = balanceBig.sub(price);
+      return ethers.utils.formatUnits(remaining);
     }
   }
+
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto " onClose={onClose}>
@@ -92,7 +86,7 @@ export const BuyDialog = ({ open, onClose, price, itemId, onComplete }: Props) =
                 <p className="font-semibold text-gray-500">
                   Your balance
                   <span className="float-right font-medium text-gray-200 font-inter">
-                    {balance && Number(ethers.utils.formatEther(balance)).toFixed(2)} ETH
+                    {balance} ETH
                   </span>
                 </p>
               </div>
