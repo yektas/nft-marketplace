@@ -27,8 +27,9 @@ const NFTBuyCard = ({ nft }: Props) => {
         <div className="mt-2 mb-4 space-y-3 sm:pr-8">
           <h5 className="text-xl font-semibold ">{nft.name}</h5>
           <p className="text-lg text-gray-400">{nft.description}</p>
-          <p className="text-2xl font-bold text-white font-inter">
-            {ethers.utils.formatEther(nft.price)} ETH
+          <p className="text-xl font-bold text-white font-inter">
+            <img src="/eth.svg" className="inline w-5 h-5 filter brightness-300" />{" "}
+            {ethers.utils.formatEther(nft.price)}
           </p>
         </div>
         <div className="flex items-center space-x-2 justify-evenly">

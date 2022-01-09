@@ -14,7 +14,7 @@ const NFTCard = ({ nft }: Props) => {
 
   return (
     <div className="relative text-gray-200 cursor-pointer shadow-homogen bg-background rounded-2xl">
-      <span className="absolute z-10 inline-flex items-center px-3 text-sm font-semibold text-white bg-primary rounded-full  right-2 top-2">
+      <span className="absolute z-10 inline-flex items-center px-3 text-sm font-semibold text-white rounded-full bg-primary right-2 top-2">
         # <span className="pl-1 text-xl">{nft.itemId}</span>
       </span>
       <Link href={`/items/${nft.itemId}`}>
@@ -28,18 +28,21 @@ const NFTCard = ({ nft }: Props) => {
           <p className="text-lg text-gray-400">{nft.description}</p>
           <p className="inline-flex justify-between w-full text-2xl font-bold text-white font-inter">
             <span className="text-xl font-medium text-gray-400">Last price </span>{" "}
-            {ethers.utils.formatEther(nft.price)} ETH
+            <span>
+              <img src="/eth.svg" className="inline w-5 h-5 filter brightness-300" />{" "}
+              {ethers.utils.formatEther(nft.price)} ETH
+            </span>
           </p>
         </div>
-        <div className="flex items-center space-x-2 justify-evenly">
-          <Button onClick={() => setOpen(true)}>Sell</Button>
+        <div className="flex items-center justify-evenly">
+          {/* <Button onClick={() => setOpen(true)}>Sell</Button> */}
           <Link href={`/items/${nft.itemId}`}>
             <Button type="secondary">Details</Button>
           </Link>
         </div>
       </div>
 
-      <SellDialog itemId={nft.itemId} open={open} onClose={() => setOpen(false)} />
+      {/* <SellDialog itemId={nft.itemId} open={open} onClose={() => setOpen(false)} /> */}
     </div>
   );
 };

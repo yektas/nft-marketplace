@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 
 import { task } from "hardhat/config";
+import "hardhat-deploy";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
@@ -26,9 +27,14 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.8.9",
+  namedAccounts: {
+    deployer: 0,
+    account1: 1,
+    account2: 2,
+  },
   networks: {
     ropsten: {
-      url: process.env.ROPSTEN_URL || "",
+      url: process.env.NEXT_PUBLIC_ROPSTEN_URL || "",
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
   },

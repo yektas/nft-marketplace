@@ -50,7 +50,6 @@ contract Marketplace is ReentrancyGuard {
             payable(address(0)),
             nftContract
         );
-
         IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
 
         emit MarketItemCreated(
@@ -105,13 +104,13 @@ contract Marketplace is ReentrancyGuard {
     //Return market items
     function getAllMarketItems() public view returns (MarketItem[] memory) {
         uint256 unsoldItemCount = _itemIds.current() - _itemsSold.current();
+        uint256 totalItemCount = _itemIds.current();
         MarketItem[] memory unsoldItems = new MarketItem[](unsoldItemCount);
 
         uint256 index = 0;
-
-        for (uint256 i = 0; i < unsoldItemCount; i++) {
-            if (marketItems[i + 1].owner == address(0)) {
-                unsoldItems[index] = marketItems[marketItems[i + 1].itemId];
+        for (uint256 i = 1; i <= totalItemCount; i++) {
+            if (marketItems[i].owner == address(0)) {
+                unsoldItems[index] = marketItems[marketItems[i].itemId];
                 index += 1;
             }
         }
@@ -157,6 +156,7 @@ contract Marketplace is ReentrancyGuard {
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (marketItems[i + 1].seller == msg.sender) {
                 uint256 currentId = i + 1;
+
                 nfts[index] = marketItems[currentId];
                 index += 1;
             }

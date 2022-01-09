@@ -42,8 +42,10 @@ const Home: NextPage = () => {
   async function loadNFTs() {
     showSpinner();
     const data = await getMarketContract().getAllMarketItems();
+    console.log(data);
     const items = await Promise.all(
       data.map(async (nft) => {
+        console.log(nft);
         const tokenURI = await getTokenContract().tokenURI(nft.tokenId);
         const metadata = await axios.get(`https://ipfs.io/ipfs/${tokenURI}`);
         const marketItem: MarketItem = {

@@ -5,10 +5,9 @@ import { marketAddress, nftAddress } from "../../config";
 import NFT from "../../artifacts/contracts/HeraCollection.sol/HeraCollection.json";
 import Market from "../../artifacts/contracts/Marketplace.sol/Marketplace.json";
 
-export const rpcProvider =
-  process.env.NODE_ENV == "production"
-    ? new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ROPSTEN_URL)
-    : new ethers.providers.JsonRpcProvider();
+export const rpcProvider = new ethers.providers.JsonRpcProvider(
+  process.env.NEXT_PUBLIC_ROPSTEN_URL
+);
 
 export function getMarketContract(signer?: any) {
   let provider = rpcProvider;

@@ -64,6 +64,7 @@ const ItemDetail = ({}: Props) => {
   }
 
   function renderNFT(nft: MarketItem) {
+    console.log(nft);
     const price = ethers.utils.formatUnits(nft.price.toString(), "ether");
     return (
       <div className="text-white mt-28">
@@ -112,9 +113,7 @@ const ItemDetail = ({}: Props) => {
                 </p>
               </div>
               <div className="flex-1"></div>
-              <GlowButton onClick={() => setOpen(true)}>
-                {nft.isSold ? "Sell" : "Buy Now"}
-              </GlowButton>
+              {!nft.isSold && <GlowButton onClick={() => setOpen(true)}>Buy Now</GlowButton>}
             </div>
 
             {open && (
